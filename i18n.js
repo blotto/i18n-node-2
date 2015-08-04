@@ -245,6 +245,22 @@ i18n.prototype = {
 		}
 	},
 
+	setLocaleFromSubfolder: function (req) {
+		req = req || this.request;
+
+		if (!req || !req.headers || !req.headers.host) {
+			return;
+		}
+
+		if (/^([^.]+)/.test(req.headers.host) && this.locales[RegExp.$1]) {
+			if (this.devMode) {
+				console.log("Overriding locale from host: " + RegExp.$1);
+			}
+
+			this.setLocale(RegExp.$1);
+		}
+	},
+
 	setLocaleFromCookie: function (req) {
 		req = req || this.request;
 
